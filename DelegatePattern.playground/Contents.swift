@@ -1,3 +1,13 @@
+//**
+//	https://github.com/radianttap/Learn-Swift-through-Examples
+//
+//	© Copyright Aleksandar Vacić, 2017
+//	
+//	Licensed under: Creative Commons Attribution Share Alike 4.0
+//	https://choosealicense.com/licenses/cc-by-sa-4.0/
+//**
+
+
 import Foundation
 
 //	## Learn Swift through examples
