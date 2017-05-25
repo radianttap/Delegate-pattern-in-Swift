@@ -15,7 +15,7 @@ import Foundation
 //	Delegate pattern, modeling real-world problem
 //
 //	Person needs a Key made. He finds the Keymaker that can make the Key it needs.
-//	Person register as next customer (`delegate`) and then waits to be informed that Key is ready.
+//	Person register as next `customer` and then waits to be informed that Key is ready.
 
 
 
@@ -44,12 +44,12 @@ final class Person {
 
 final class Keymaker {
 	//	REGISTRATION point for end users that need this specific work (Key making) done
-	weak var delegate: Keymaking?
+	weak var customer: Keymaking?
 
-	//	Can only do work for just one end user, the last one that registered itself as `delegate`.
+	//	Can only do work for just one end user, the last one that registered itself as `customer`.
 	//
 	//	Note that `Keymaker` does not care what is the real, actual type of the object that needs the `Key` made.
-	//	It only cares is the `delegate` compatible with the way `Keymaker` will deliver result of its work
+	//	It only cares is the `customer` compatible with the way `Keymaker` will deliver result of its work
 }
 
 //	(2a) Protocol, OUTPUT INTERFACE declared by the Service to describe how it will deliver the result
@@ -58,14 +58,14 @@ protocol Keymaking: class {
 	func keymaker(_ keymaker: Keymaker, didProduceKey key: Key)
 }
 
-//	(2b) Keymaker completes his work internally and then notifies the Person (`delegate`)
+//	(2b) Keymaker completes his work internally and then notifies the Person (`customer`)
 //	Note: this part is usually marked as (file)private for the `Keymaker`
 //	No object outside the `Keymaker` should know nor care how the `Key` is produced
 
 fileprivate extension Keymaker {
 	func didProduceKey(_ key: Key) {
-		//	inform the delegate that Key is ready
-		delegate?.keymaker(self, didProduceKey: key)
+		//	inform the end user that Key is ready
+		customer?.keymaker(self, didProduceKey: key)
 	}
 }
 
@@ -103,7 +103,7 @@ me.key
 //	Me: need to find someone to make me a new Key
 var keymaker = Keymaker()
 //	Me: Hey, Mr Keymaker, please do make me a Key
-keymaker.delegate = me
+keymaker.customer = me
 
 
 //	Keymaker: sure thing!
