@@ -1,12 +1,16 @@
 import Foundation
 
+//	## Learn Swift through examples
+//
 //	Delegate pattern, modeling real-world problem
-//	A Person needs a Key made. He finds the Keymaker that makes the Key it needs.
-//	Person register as next customer (`delegate`) and then waits to be informed that Key is ready
+//
+//	Person needs a Key made. He finds the Keymaker that can make the Key it needs.
+//	Person register as next customer (`delegate`) and then waits to be informed that Key is ready.
 
 
 
-//	(0) `Key`, DATA MODEL, description of work that needs to be done
+//	(0) `Key`, DATA MODEL
+//	description of work that needs to be done
 
 struct Key {
 	var shape: String
@@ -44,21 +48,24 @@ protocol Keymaking: class {
 	func keymaker(_ keymaker: Keymaker, didProduceKey key: Key)
 }
 
+//	(2b) Keymaker completes his work internally and then notifies the Person (`delegate`)
+//	Note: this part is usually marked as (file)private for the `Keymaker`
+//	No object outside the `Keymaker` should know nor care how the `Key` is produced
 
-//	(2b)
-extension Keymaker {
+fileprivate extension Keymaker {
 	func didProduceKey(_ key: Key) {
-		//	inform the delegate Key is ready
+		//	inform the delegate that Key is ready
 		delegate?.keymaker(self, didProduceKey: key)
 	}
-
-	//	Note: this part is usually marked as (file)private for the `Keymaker`
-	//	No object outside the `Keymaker` should know nor care how the `Key` is produced
 }
+
+
+
 
 
 //	(1b) End User waits to be informed that Service (Keymaker) has completed its work
 //	and receives the result (Key)
+
 extension Person: Keymaking {
 	func keymaker(_ keymaker: Keymaker, didProduceKey key: Key) {
 		self.key = key
@@ -66,30 +73,34 @@ extension Person: Keymaking {
 }
 
 
-//	In actual project, you would place all of these in separate files
-//	Key.swift, Person.swift, Keymaker.swift
+//	Note: In actual project, you would place this code in separate files:
+//	Key.swift
+//	Person.swift
+//	Keymaker.swift
+//	That way, `fileprivate` will work as intended
 
 
 
 
 //	## Very mocked-up example
 
-//	 I...
+//	Me: I lost my house key...
 var me = Person()
-//	lost my house key...
 me.key
-//	Me: s*it!
+//	Me: S*it!
+
 
 //	Me: need to find someone to make me a new Key
 var keymaker = Keymaker()
 //	Me: Hey, Mr Keymaker, please do make me a Key
 keymaker.delegate = me
 
+
 //	Keymaker: sure thing!
 var key = Key(shape: "Basic")
 //	Keymaker: phew, this was tough one. Let me call that guy...
 keymaker.didProduceKey(key)
 
-//	Me: Yay, can enter house! Thanks Mr. Keymaker
+//	Me: Yay, can enter house again! Thanks Mr. Keymaker
 me.key
 
