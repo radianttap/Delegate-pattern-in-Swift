@@ -1,5 +1,5 @@
-# Learn programming concepts and pattern, using Swift
-A collection of simplest possible examples for various programming concepts and patterns, all made in Swift 3 (or whichever is current at the moment of creation)
+# Delegate pattern
+Delegate pattern is one of the fundamental design patterns in Swift. [Here's an example](http://aplus.rs/2017/implement-delegate-pattern-in-swift/) where Delegate is the most appropriate solution.
 
 
 
